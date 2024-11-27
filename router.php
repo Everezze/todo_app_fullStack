@@ -26,10 +26,6 @@ $routes = [
 	"/contact" => "views/contact.php",
 ];
 
-//if(array_key_exists($uri,$routes)){
-//	echo("The key:" . $uri . " exist");
-//};
-
 if(array_key_exists($uri,$routes)){
 	echo("the route chosen is: " . $uri);
 	require $routes[$uri];
