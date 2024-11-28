@@ -2,7 +2,7 @@
 	<nav>
 		<ul>
 			<li>
-				<a href="/">Home</a>
+			<a href=<?=$proj_name?> >Home</a>
 			</li>
 			<li>
 				<a href="/about">About Us</a>
