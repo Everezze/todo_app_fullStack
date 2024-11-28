@@ -1,8 +1,8 @@
 <?php
-require "../partials/head.php";
-require "../partials/header.php";
+require "partials/head.php";
+require "partials/header.php";
 ?>
 
 <form action=""></form>
 
-<?php require "../partials/footer.php"; ?>
+<?php require "partials/footer.php"; ?>
