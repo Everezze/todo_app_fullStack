@@ -24,38 +24,42 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$email = $_POST["email"];
 		$password = $_POST["password"];
 
-		$db = new PDO("mysql:host=127.0.0.1;dbname=todo_app","root");
-		$user_data = retrieve_by_email($_POST["email"]);
+		$fields = [];
 
-		if($user_data){
+		foreach($_POST as $data_key => $data_value){
+			$fields[$data_key] = [] ;
+			$fields[$data_key]["value"] = $data_value ;
+			$fields[$data_key]["error_content"] = "Invalid input, please retry.";
+			check_inputs($data_key);
+			echo "</br>";
+			echo "inside loop just after input checked : " . $$data_key;
+			echo "</br>";
+		}
+
+		$db = new PDO("mysql:host=127.0.0.1;dbname=todo_app","root");
+		if($fields["email"]["state"] == "valid"){
+			$user_data = retrieve_by_email($_POST["email"]);
+		}
+
+		if(isset($user_data) && $user_data){
+			if($user_data["first_name"] == $fields["first_name"]
+			&& $user_data["last_name"] == $fields["last_name"]){
+				$fields["first_name"]["error_content"] = "First/Last name pair already exists.";
+				$fields["last_name"]["error_content"] = "First/Last name pair already exists.";
+			}
+			$fields["email"]["error_content"] = "Email already taken. Choose another one.";
 			//return the view with error message that email already
 			//exists.
-			echo "mail already exists, re-try again.";
+			//echo "mail already exists, re-try again.";
+			return "views/register.php";
 		}
 		else{
-
-			foreach($_POST as $data_key => $data_value){
-				check_inputs($data_key,$data_value);
-				echo "</br>";
-				echo "inside loop just after input checked : " . $$data_key;
-				echo "</br>";
-			}
 
 			if($valid_inputs < NUM_OF_INPUTS){
 				require "views/register.php";
 			}
 			else{
-				$hashed_pwd = secure_password($password);
-				$register_query = 
-					"insert into users (first_name,last_name,email,password,isAdmin)
-					values (:first_name,:last_name,:email,:password,0)";
-				$stmt = $db->prepare($register_query);
-				$stmt->bindValue(":first_name",$first_name);
-				$stmt->bindValue(":last_name",$last_name);
-				$stmt->bindValue(":email",$email);
-				$stmt->bindValue(":password",$hashed_pwd);
-				$stmt->execute();
-				echo "user registered";
+				register_user($fields);
 			}
 		}
 	}

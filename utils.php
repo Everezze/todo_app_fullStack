@@ -8,15 +8,6 @@ function Log_Instyle($value){
 	die();
 }
 
-function post_to_array($post_data){
-	$post_array = [];
-	foreach($post_data as $key => $value){
-		$post_array[$key] = $value;
-	}
-
-	return $post_array;
-};
-
 function secure_password(string $plain_pwd): string {
 	return password_hash($plain_pwd,PASSWORD_ARGON2ID);
 }
@@ -34,12 +25,29 @@ function retrieve_by_email(string $email): array|bool {
 	return $user_data;
 }
 
-function check_inputs(string $type , string $user_input){
-	global $$type;
+function register_user(array $fields){
+	global $db;
+
+	$hashed_pwd = secure_password($fields["password"]["value"]);
+	$register_query = 
+		"insert into users (first_name,last_name,email,password,isAdmin)
+		values (:first_name,:last_name,:email,:password,0)";
+	$stmt = $db->prepare($register_query);
+	$stmt->bindValue(":first_name",$fields["first_name"]["value"]);
+	$stmt->bindValue(":last_name",$fields["last_name"]["value"]);
+	$stmt->bindValue(":email",$fields["email"]["value"]);
+	$stmt->bindValue(":password",$hashed_pwd);
+	$stmt->execute();
+	echo "user registered";
+}
+
+function check_inputs(string $type){
 	global $valid_inputs;
+	global $fields;
 	echo "</br>";
 	echo "the global \$type : " . $type;
 	echo "</br>";
+	//global $$type;
 
 	$regex  = [
 		"first_name" =>"#^(?=[a-zA-Z]{3,})[a-zA-z\d_-]{3,20}$#", 
@@ -48,9 +56,15 @@ function check_inputs(string $type , string $user_input){
 		"password" =>"#^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[\#?!@$%^&*-])[a-zA-z\d\#?!@$%^&*-]{8,16}$#" 
 	];
 
-	if(!preg_match($regex[$type],$user_input)){
-		$$type = "active-error";
+	if(!preg_match($regex[$type],$fields[$type]["value"])){
+		$fields[$type]["state"] = "invalid";
+		$fields[$type]["class"] = "active-error";
 		$valid_inputs -= 1;
+		//$$type = "active-error";
+	}
+	else{
+		$fields[$type]["state"] = "valid";
+		$fields[$type]["class"] = "";
 	}
 
 	echo "valid inputs still : " . $valid_inputs;
@@ -58,11 +72,13 @@ function check_inputs(string $type , string $user_input){
 }
 
 function Is_error(string $field){
-	global $$field;
-	//isset($$field) ? "active-error" : "";
-	if(isset($$field) && $$field == "active-error"){
-		return "active-error";
-	}else{
-		return "";
-	}
+	global $fields;
+	return $fields[$field]["class"];
+}
+
+function display_error_msg($field){
+	global $fields;
+
+	return $fields[$field]["error_content"];
+
 }
