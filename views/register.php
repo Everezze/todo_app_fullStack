@@ -1,29 +1,46 @@
 <?php
+//require "partials/head.php";
+//require "partials/header.php";
 require "partials/head.php";
 require "partials/header.php";
 ?>
 
-<section>
-	<form action="controllers/registerController.php" method="post">
+<section class="register-section">
+	<form action= <?= $proj_name . "/register" ?> method="post">
 		<div>
-			<label for="">First Name</label>
-			<div class="input-container"><input type="text"></div>
+			<label for="first_name">First Name</label>
+			<div class="input-container">
+				<input type="text" name="first_name" id="first_name">
+			</div>
+			<p class="error-msg <?= Is_error("first_name") ?>">Invalid input, please retry.</p>
 		</div>
 		<div>
-			<label for="">Last Name</label>
-			<div class="input-container"><input type="text"></div>
+			<label for="last_name">Last Name</label>
+			<div class="input-container">
+				<input type="text" name="last_name" id="last_name">
+			</div>
+			<p class="error-msg <?= Is_error("last_name") ?>">Invalid input, please retry.</p>
 		</div>
 		<div>
-			<label for="">Email</label>
-			<div class="input-container"><input type="text"></div>
+			<label for="email">Email</label>
+			<div class="input-container">
+				<input type="email" name="email" id="email">
+			</div>
+			<p class="error-msg <?= Is_error("email") ?>">Invalid input, please retry.</p>
 		</div>
 		<div>
-			<label for="">Password</label>
-			<div class="input-container"><input type="text"></div>
+			<label for="password">Password</label>
+			<div class="input-container">
+				<input type="password" name="password" id="password">
+			</div>
+			<p class="error-msg <?= Is_error("password") ?>">Invalid input, please retry.</p>
 		</div>
 
-		<button>Register</button>
+		<button type="submit">Register</button>
 	</form>
 </section>
 
-<?php require "partials/footer.php"; ?>
+<?php 
+//require "partials/footer.php"; 
+require "partials/footer.php";
+?>
