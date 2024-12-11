@@ -72,13 +72,48 @@ function check_inputs(string $type){
 }
 
 function Is_error(string $field){
-	global $fields;
-	return $fields[$field]["class"];
+	//global $fields;
+	//return $fields[$field]["class"];
+	//return $_SESSION["guest_data"][$field]["class"];
+
+	if($_SESSION["register_try"]){
+		return $_SESSION["guest_data"][$field]["class"];
+	}
+	else{
+		return "";
+	}
+
+
+	//if($_SERVER["REQUEST_METHOD"] == "GET"){
+	//	return "";
+	//}
+	//else{
+	//	return $_SESSION["guest_data"][$field]["class"];
+	//}
 }
 
 function display_error_msg($field){
-	global $fields;
+	//global $fields;
+	//return $fields[$field]["error_content"];
+	//return $_SESSION["guest_data"][$field]["error_content"];
+	
+	//var_dump($_SESSION["register_try"]);
+	if($_SESSION["register_try"]){
+		return $_SESSION["guest_data"][$field]["error_content"];
+	}
+	else{
+		return "";
+	}
 
-	return $fields[$field]["error_content"];
+	//if($_SERVER["REQUEST_METHOD"] == "GET"){
+	//	return "";
+	//}
+	//else{
+	//	return $_SESSION["guest_data"][$field]["error_content"];
+	//}
 
+}
+
+function reset_try(){
+	$_SESSION["register_try"] = 0;
 }

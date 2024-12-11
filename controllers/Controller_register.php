@@ -1,20 +1,13 @@
 <?php
 
-//require "utils.php";
-
-//echo("</br>");
-//echo(__FILE__);
-//echo("</br>");
-//echo(getcwd());
-//
-//echo("</br>");
-//echo("</br>");
-//echo("</br>");
-//die();
-
 const NUM_OF_INPUTS = 4;
 $valid_user = true;
 $valid_inputs = 4;
+
+echo "</br>";
+echo "value of register_try : " . $_SESSION["register_try"];
+echo "</br>";
+echo "</br>";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	if(isset($_POST)){
@@ -36,9 +29,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			echo "</br>";
 		}
 
+		//using the guest session to retrieve and dipslay error when re-routing using
+		//the header func
+		$_SESSION["guest_data"] = &$fields;
+		if(!$_SESSION["register_try"]){
+			$_SESSION["register_try"] = 1;
+		}
+
 		$db = new PDO("mysql:host=127.0.0.1;dbname=todo_app","root");
 		if($fields["email"]["state"] == "valid"){
 			$user_data = retrieve_by_email($_POST["email"]);
+			var_dump($user_data);
 		}
 
 		if(isset($user_data) && $user_data){
@@ -51,15 +52,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			//return the view with error message that email already
 			//exists.
 			//echo "mail already exists, re-try again.";
-			return "views/register.php";
+
+			//return "views/register.php";
+			header("Location: " . $proj_name . "/register");
+			exit();
 		}
 		else{
 
 			if($valid_inputs < NUM_OF_INPUTS){
-				require "views/register.php";
+				header("Location: " . $proj_name . "/register");
+				exit();
+				//require "views/register.php";
 			}
 			else{
 				register_user($fields);
+				header("Location: " . $proj_name . "/connect");
+				exit();
 			}
 		}
 	}
@@ -68,7 +76,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 }
 elseif($_SERVER["REQUEST_METHOD"] == "GET"){
+	//if($_SESSION["register_try"]){
+	//	$_SESSION["register_try"] = 0;
+	//}
 	require "views/register.php";
+	//header("Location: " . $proj_name . "/register");
+	//exit();
 }
 
 //require dirname(__DIR__) . "/views/register.php";

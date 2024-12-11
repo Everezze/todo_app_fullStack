@@ -3,6 +3,7 @@
 //require "partials/header.php";
 require "partials/head.php";
 require "partials/header.php";
+
 ?>
 
 <section class="register-section">
@@ -37,6 +38,7 @@ require "partials/header.php";
 		</div>
 
 		<button type="submit">Register</button>
+		<p><?php reset_try() ?></p>
 	</form>
 </section>
 
