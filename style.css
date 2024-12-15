@@ -17,6 +17,7 @@ body{
 
 main{
 	max-width: 700px;
+	padding: 2rem;
 }
 
 h1{
@@ -37,6 +38,8 @@ footer{
 
 nav{
 	padding: 2rem;
+	display: flex;
+	justify-content: space-between;
 }
 
 ul{
@@ -75,6 +78,12 @@ button:hover{
 	cursor: pointer;
 }
 
+article{
+	padding: 2rem;
+	margin: 1rem auto 0;
+	max-width: 900px;
+}
+
 .options{
 	display: flex;
 	justify-content: space-around;
@@ -101,6 +110,10 @@ form > div+div{
 	margin-top: 1rem;
 }
 
+.df{
+	display: flex;
+}
+
 .error-msg{
 	display: none;
 	color:crimson;
@@ -110,4 +123,51 @@ form > div+div{
 .error-msg.active-error{
 	display: block;
 	font-size: .8rem;
+}
+
+.list{
+	padding: 7 1rem;
+	color:white;
+	background: brown;
+	border-radius: 2rem;
+	display: inline-block;
+}
+
+.list + .list{
+	margin-left: 1rem;
+}
+
+.task-circle{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	border: 1px solid black;
+}
+
+.task-container{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	border: 1px solid black;
+}
+
+.task-container:hover{
+	cursor: pointer;
+}
+
+.task-container + .task-container{
+	border-top: 1px solid black;
+}
+
+.task{
+	align-items: center;
+}
+
+.task-content{
+	margin-left: 1rem;
+}
+
+.cross-img{
+	width: 25px;
 }

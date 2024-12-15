@@ -1,7 +1,7 @@
 <?php
 
 const NUM_OF_INPUTS = 4;
-$valid_user = true;
+//$valid_user = true;
 $valid_inputs = 4;
 
 echo "</br>";
@@ -36,8 +36,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			$_SESSION["register_try"] = 1;
 		}
 
-		$db = new PDO("mysql:host=127.0.0.1;dbname=todo_app","root");
 		if($fields["email"]["state"] == "valid"){
+			$db = new PDO("mysql:host=127.0.0.1;dbname=todo_app","root");
 			$user_data = retrieve_by_email($_POST["email"]);
 			var_dump($user_data);
 		}

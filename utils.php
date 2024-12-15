@@ -4,7 +4,6 @@ function Log_Instyle($value){
 	echo("<pre>");
 	var_dump($value);
 	echo("</pre>");
-
 	die();
 }
 
@@ -13,9 +12,7 @@ function secure_password(string $plain_pwd): string {
 }
 
 function retrieve_by_email(string $email): array|bool { 
-
 	global $db;
-
 	$retrieve_query = "select * from users where email = ?";
 	$stmt = $db->prepare($retrieve_query);
 	$stmt->bindValue(1,$email);
@@ -68,52 +65,35 @@ function check_inputs(string $type){
 	}
 
 	echo "valid inputs still : " . $valid_inputs;
-
 }
 
 function Is_error(string $field){
-	//global $fields;
-	//return $fields[$field]["class"];
-	//return $_SESSION["guest_data"][$field]["class"];
-
 	if($_SESSION["register_try"]){
 		return $_SESSION["guest_data"][$field]["class"];
 	}
 	else{
 		return "";
 	}
-
-
-	//if($_SERVER["REQUEST_METHOD"] == "GET"){
-	//	return "";
-	//}
-	//else{
-	//	return $_SESSION["guest_data"][$field]["class"];
-	//}
 }
 
 function display_error_msg($field){
-	//global $fields;
-	//return $fields[$field]["error_content"];
-	//return $_SESSION["guest_data"][$field]["error_content"];
-	
-	//var_dump($_SESSION["register_try"]);
 	if($_SESSION["register_try"]){
 		return $_SESSION["guest_data"][$field]["error_content"];
 	}
 	else{
 		return "";
 	}
-
-	//if($_SERVER["REQUEST_METHOD"] == "GET"){
-	//	return "";
-	//}
-	//else{
-	//	return $_SESSION["guest_data"][$field]["error_content"];
-	//}
-
 }
 
 function reset_try(){
 	$_SESSION["register_try"] = 0;
 }
+
+//function isConnect(){
+//	 if(isset($_SESSION["user"])):
+//		<div class="profile-container">
+//			<span></span>
+//			<img src="" alt="">
+//			<span class="board"></span>
+//		</div>
+//}

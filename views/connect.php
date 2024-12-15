@@ -4,10 +4,10 @@ require "partials/header.php";
 ?>
 
 <main>
-	<h1>Welcome to todo_app</h1>
-	<section>
+	<h1 class="tac">Welcome to todo_app</h1>
+	<section class="register-section">
 		<h2>Connect here : </h2>
-		<form action="/connect" method="post">
+		<form action= <?= $proj_name . "/connect" ?> method="post">
 			<div>
 				<label for="email">Your Email: </label>
 				<div class="input-container">
@@ -21,6 +21,10 @@ require "partials/header.php";
 				</div>
 			</div>
 			<p class="error-msg <?= check_inputs("password",$password) ?>">Wrong combination, please retry.</p>
+			<button>Connect</button>
+			<div>
+			<p>No account yet ? <a href= <?= $proj_name . "/register" ?> >Register here.</a> </p>
+			</div>
 		</form>
 	</section>
 </main>
